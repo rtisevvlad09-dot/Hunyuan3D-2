@@ -83,7 +83,7 @@ const dirsToCopy = ['css']; // we'll treat 'js' specially
 
 for (const f of filesToCopy) {
     if (fs.existsSync(path.join(__dirname, f))) {
-        fs.copyFileSync(path.join(__dirname, f), path.join(distSrc, f));
+        if(f !== 'package.json') fs.copyFileSync(path.join(__dirname, f), path.join(distSrc, f));
     }
 }
 
@@ -97,3 +97,10 @@ for (const d of dirsToCopy) {
 obfuscateDirectory(path.join(__dirname, 'js'), path.join(distSrc, 'js'));
 
 console.log("Obfuscation complete.");
+
+// create package.json for dist-src without build commands
+const pkg = require('./package.json');
+delete pkg.build;
+delete pkg.scripts;
+delete pkg.devDependencies;
+fs.writeFileSync(path.join(distSrc, 'package.json'), JSON.stringify(pkg, null, 2));
