@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#6C5CE7">
+    <meta name="description" content="FLO.RISTA Pro — профессиональная система управления цветочным бизнесом">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="FLO.RISTA">
+
+    <title>FLO.RISTA Pro</title>
+
+    <!-- PWA манифест -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Иконка -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🌸%3C/text%3E%3C/svg%3E">
+
+    <!-- Шрифты -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <!-- Стили -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- ===== ТОСТЫ ===== -->
+<div id="toasts" class="toasts"></div>
+
+<!-- ===== ЭКРАН: СОЗДАНИЕ ВЛАДЕЛЬЦА ===== -->
+<div id="scr-setup" class="screen login-bg">
+    <div class="login-card">
+        <div class="login-logo">🌸</div>
+        <h1 class="login-title" data-i18n="setup.title">Создание первого администратора</h1>
+        <p class="login-sub" data-i18n="setup.subtitle">Заполните данные для входа в систему</p>
+
+        <form id="setupForm">
+            <div class="form-group">
+                <label class="lbl" data-i18n="setup.name">ФИО</label>
+                <input type="text" class="inp" name="name" required autocomplete="name">
+            </div>
+
+            <div class="form-group">
+                <label class="lbl" data-i18n="setup.phone">Телефон</label>
+                <input type="tel" class="inp phone" name="phone" required maxlength="18" autocomplete="tel">
+            </div>
+
+            <div class="form-group">
+                <label class="lbl" data-i18n="setup.password">Пароль</label>
+                <input type="password" class="inp" name="pw" required minlength="8" autocomplete="new-password">
+            </div>
+
+            <div class="form-group">
+                <label class="lbl" data-i18n="setup.password2">Подтверждение пароля</label>
+                <input type="password" class="inp" name="pw2" required minlength="8" autocomplete="new-password">
+            </div>
+
+            <div class="form-group">
+                <label class="lbl" data-i18n="setup.sec_question">Секретный вопрос</label>
+                <input type="text" class="inp" name="secQuestion" required>
+            </div>
+
+            <div class="form-group">
+                <label class="lbl" data-i18n="setup.sec_answer">Ответ на секретный вопрос</label>
+                <input type="text" class="inp" name="secAnswer" required>
+            </div>
+
+            <button type="submit" class="btn" style="width:100%;margin-top:20px">
+                <span data-i18n="setup.button">Создать владельца и войти</span>
+            </button>
+        </form>
+
+        <!-- Переключатель языка на экране настройки -->
+        <div style="text-align:center;margin-top:20px">
+            <button id="setupLangBtn" class="btn g" style="padding:8px 16px">
+                🌐 <span data-i18n="common.choose_language">Выбрать язык</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== ЭКРАН: ВХОД ===== -->
+<div id="scr-login" class="screen login-bg">
+    <div class="login-card">
+        <div class="login-logo">🌸</div>
+        <h1 class="login-title" data-i18n="login.title">Добро пожаловать</h1>
+        <p class="login-sub" data-i18n="login.subtitle">Войдите в свой аккаунт</p>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label class="lbl" data-i18n="login.phone">Телефон</label>
+                <input type="tel" class="inp phone" name="phone" required maxlength="18" autocomplete="tel">
+            </div>
+
+            <div class="form-group">
+                <label class="lbl" data-i18n="login.password">Пароль</label>
+                <input type="password" class="inp" name="pw" required autocomplete="current-password">
+            </div>
+
+            <!-- 2FA блок (скрыт по умолчанию) -->
+            <div class="form-group" id="tfaBlock" style="display:none">
+                <label class="lbl">Код 2FA</label>
+                <input type="text" class="inp" name="tfa" maxlength="8" autocomplete="one-time-code">
+            </div>
+
+            <div style="display:flex;justify-content:space-between;align-items:center;margin:12px 0">
+                <label style="display:flex;align-items:center;gap:8px;font-size:14px;color:var(--t2);cursor:pointer">
+                    <input type="checkbox" name="remember" checked>
+                    <span data-i18n="login.remember">Запомнить меня</span>
+                </label>
+                <a href="#" class="login-link" data-i18n="login.forgot">Забыли пароль?</a>
+            </div>
+
+            <button type="submit" class="btn" style="width:100%">
+                <span data-i18n="login.button">Войти в систему</span>
+            </button>
+        </form>
+
+        <!-- Переключатель языка на экране входа -->
+        <div style="text-align:center;margin-top:20px">
+            <button id="loginLangBtn" class="btn g" style="padding:8px 16px">
+                🌐 <span data-i18n="common.choose_language">Выбрать язык</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ===== ЭКРАН: ПРИЛОЖЕНИЕ ===== -->
+<div id="scr-app" class="screen">
+    <div class="app">
+
+        <!-- ХЕДЕР -->
+        <div class="header">
+            <div class="header-top">
+                <!-- Логотип -->
+                <div class="logo">
+                    <span>🌸</span>
+                    <span class="logo-text">FLO.RISTA</span>
+                </div>
+
+                <!-- Верхняя панель с кнопками -->
+                <div class="topbar">
+                    <!-- Имя пользователя -->
+                    <span id="uname" class="topname">...</span>
+
+                    <!-- Статус синхронизации -->
+                    <span class="sync-status" id="syncStatus">
+                        <span class="sync-dot" id="syncDot"></span>
+                        <span id="syncTxt">...</span>
+                        <span class="sync-queue hidden" id="syncQueueCount">0</span>
+                    </span>
+
+                    <!-- Кнопка уведомлений -->
+                    <button id="notifBtn" class="notif-btn" title="Уведомления">
+                        🔔
+                        <span id="notifBadge" class="notif-badge" style="display:none">0</span>
+                    </button>
+
+                    <!-- Переключатель языка -->
+                    <button id="langBtn" class="btn g" title="Язык / Language" style="padding:8px 12px">
+                        🌐
+                    </button>
+
+                    <!-- Переключатель темы -->
+                    <button id="themeBtn" class="btn g" title="Тема" style="padding:8px 12px">
+                        🌓
+                    </button>
+
+                    <!-- Экспорт -->
+                    <button id="exportBtn" class="btn g" title="Экспорт данных" style="padding:8px 12px">
+                        💾
+                    </button>
+                    <input type="file" id="importFile" accept=".json" style="display:none">
+
+                    <!-- Синхронизация -->
+                    <button id="syncBtn" class="btn g" title="Синхронизация" style="padding:8px 12px">
+                        🔄
+                    </button>
+
+                    <!-- Выход -->
+                    <button id="logoutBtn" class="btn g" title="Выйти" style="padding:8px 12px">
+                        🚪
+                    </button>
+                </div>
+            </div>
+
+            <!-- НАВИГАЦИЯ -->
+            <div id="nav" class="nav"></div>
+        </div>
+
+        <!-- ОСНОВНОЙ КОНТЕНТ -->
+        <div id="view" class="view"></div>
+
+    </div>
+</div>
+
+<!-- ===== ПАНЕЛЬ ВЫБОРА ЯЗЫКА ===== -->
+<div id="langPanel" class="lang-panel hidden">
+    <div class="lang-panel-title" data-i18n="common.choose_language">Выберите язык</div>
+    <div id="langList"></div>
+</div>
+
+<!-- ===== МОДАЛЬНОЕ ОКНО ===== -->
+<div id="modal" class="modal"></div>
+
+<!-- =========================================================
+     СКРИПТЫ
+     ========================================================= -->
+
+<!-- Утилиты -->
+<script src="js/core/utils.js"></script>
+
+<!-- Мультиязычность -->
+<script src="js/core/i18n.js"></script>
+<script src="js/i18n/ru.js"></script>
+<script src="js/i18n/en.js"></script>
+<script src="js/i18n/es.js"></script>
+<script src="js/i18n/de.js"></script>
+<script src="js/i18n/fr.js"></script>
+<script src="js/i18n/it.js"></script>
+<script src="js/i18n/pt.js"></script>
+<script src="js/i18n/nl.js"></script>
+<script src="js/i18n/pl.js"></script>
+<script src="js/i18n/tr.js"></script>
+
+<!-- Ядро -->
+<script src="js/core/db.js"></script>
+<script src="js/core/modal.js"></script>
+<script src="js/core/auth.js"></script>
+<script src="js/core/state.js"></script>
+
+<!-- Сервисы -->
+<script src="js/services/audit.js"></script>
+<script src="js/services/notifications.js"></script>
+<script src="js/services/sync.js"></script>
+<script src="js/services/external.js"></script>
+
+<!-- Модули -->
+<script src="js/modules/dashboard.js"></script>
+<script src="js/modules/orders.js"></script>
+<script src="js/modules/flowers.js"></script>
+<script src="js/modules/bouquets.js"></script>
+<script src="js/modules/clients.js"></script>
+<script src="js/modules/calendar.js"></script>
+<script src="js/modules/shifts.js"></script>
+<script src="js/modules/expenses.js"></script>
+<script src="js/modules/supplies.js"></script>
+<script src="js/modules/returns.js"></script>
+<script src="js/modules/writeoffs.js"></script>
+<script src="js/modules/staff.js"></script>
+<script src="js/modules/analytics.js"></script>
+<script src="js/modules/settings.js"></script>
+
+<!-- Главный файл приложения -->
+<script src="js/app.js"></script>
+
+<!-- Регистрация Service Worker -->
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(reg => console.log('✅ Service Worker registered'))
+                .catch(err => console.warn('⚠️ SW registration failed:', err));
+        });
+    }
+</script>
+
+</body>
+</html>
