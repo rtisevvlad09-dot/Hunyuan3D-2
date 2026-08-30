@@ -1,0 +1,48 @@
+{
+  "name": "app",
+  "version": "1.0.0",
+  "description": "[中文阅读](README_zh_cn.md) [日本語で読む](README_ja_jp.md)",
+  "main": "main.js",
+  "scripts": {
+    "test": "node test.js",
+    "prebuild": "node build-obfuscate.js",
+    "build": "electron-builder build --linux"
+  },
+  "build": {
+    "appId": "com.florista.pro",
+    "productName": "Florista Pro",
+    "asar": true,
+    "directories": {
+      "app": "dist-src",
+      "output": "dist"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rtisevvlad09-dot/Hunyuan3D-2.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "node-machine-id": "^1.1.12",
+    "sqlite3": "^6.0.1"
+  },
+  "devDependencies": {
+    "electron": "^44.0.0",
+    "electron-builder": "^26.15.3",
+    "javascript-obfuscator": "^5.6.0"
+  }
+}
